@@ -119,33 +119,41 @@ function renderDashboard() {
     setTrend('hkpi-sess-trend', feb['Sessões Total'], jan['Sessões Total']);
     setTrend('hkpi-ped-trend', feb['Pedidos total'], jan['Pedidos total']);
 
-    // ── CHART: Investimento ──
+    // ── CHART: Investimento (barras) + Receita Total (linha eixo direito) ──
     destroyAndCreate('chartInvest', {
         type: 'bar',
         data: {
             labels,
             datasets: [
-                { ...makeDataset('Inv. Total', invTotal, PALETTE.orange, false), type: 'line', fill: true, backgroundColor: PALETTE.orange.fill },
-                { ...makeDataset('Inv. Eletro', invEletro, PALETTE.red, false), type: 'bar', backgroundColor: PALETTE.red.line, barPercentage: 0.5 },
-                { ...makeDataset('Inv. Alimentos', invAlim, PALETTE.teal, false), type: 'bar', backgroundColor: PALETTE.teal.line, barPercentage: 0.5 },
+                { ...makeDataset('Inv. Eletro', invEletro, PALETTE.red, false), type: 'bar', backgroundColor: PALETTE.red.line, barPercentage: 0.6, yAxisID: 'yInv' },
+                { ...makeDataset('Inv. Alimentos', invAlim, PALETTE.teal, false), type: 'bar', backgroundColor: PALETTE.teal.line, barPercentage: 0.6, yAxisID: 'yInv' },
+                { ...makeDataset('Inv. Total', invTotal, PALETTE.orange, false), type: 'line', fill: false, borderDash: [4,4], pointRadius: 5, yAxisID: 'yInv' },
             ],
         },
-        options: { ...baseOpts((v) => 'R$ ' + (v / 1000).toFixed(0) + 'k'), scales: { ...baseOpts().scales, x: { grid: { display: false }, stacked: false } } },
+        options: {
+            ...baseOpts(),
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+                x:    { grid: { display: false }, stacked: true },
+                yInv: { position: 'left', stacked: true, ticks: { callback: (v) => 'R$ ' + (v/1000).toFixed(0) + 'k' }, grid: { color: 'rgba(0,0,0,0.05)' }, title: { display: true, text: 'Investimento (R$)', color: PALETTE.orange.line } },
+            },
+        },
     });
 
-    // ── CHART: Receita ──
+    // ── CHART: Receita (barras agrupadas) ──
     destroyAndCreate('chartReceita', {
-        type: 'line',
+        type: 'bar',
         data: {
             labels,
             datasets: [
-                makeDataset('Receita Total', recTotal, PALETTE.green),
-                makeDataset('Receita Eletro', recEletro, PALETTE.blue),
-                makeDataset('Receita Alimentos', recAlim, PALETTE.purple),
+                { ...makeDataset('Rec. Eletro', recEletro, PALETTE.blue, false), type: 'bar', backgroundColor: PALETTE.blue.line, barPercentage: 0.7 },
+                { ...makeDataset('Rec. Alimentos', recAlim, PALETTE.purple, false), type: 'bar', backgroundColor: PALETTE.purple.line, barPercentage: 0.7 },
+                { ...makeDataset('Receita Total', recTotal, PALETTE.green, false), type: 'line', fill: false, borderWidth: 3, pointRadius: 5 },
             ],
         },
-        options: baseOpts((v) => 'R$ ' + (v / 1000).toFixed(0) + 'k'),
+        options: { ...baseOpts((v) => 'R$ ' + (v/1000000).toFixed(1) + 'M'), scales: { x: { grid: { display: false }, stacked: false }, y: { ticks: { callback: (v) => 'R$' + (v/1000000).toFixed(1)+'M'}, grid: { color: 'rgba(0,0,0,0.05)' } } } },
     });
+
 
     // ── CHART: Sessões ──
     destroyAndCreate('chartSessoes', {
