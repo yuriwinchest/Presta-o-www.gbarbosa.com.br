@@ -4,150 +4,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GBarbosa Analytics Executive Dashboard</title>
-    <!-- Fonts -->
+    <title>GBarbosa | Ecommerce Analytics</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chart.js -->
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">
-                <h2>GBarbosa<span class="highlight">.</span></h2>
-                <p>Analytics Portal</p>
+    <!-- ─── HERO / HEADER ─── -->
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Ecommerce Analytics</div>
+            <h1 class="hero-title">GBarbosa<span class="accent">.</span></h1>
+            <p class="hero-sub">Overview · Set/25 → Fev/26 · Investimento & Resultados</p>
+
+            <div class="hero-kpis" id="hero-kpis">
+                <div class="hero-kpi-card">
+                    <span class="hkpi-label">Receita Fev/26</span>
+                    <span class="hkpi-value" id="hkpi-receita">—</span>
+                    <span class="hkpi-trend trend-down" id="hkpi-receita-trend"></span>
+                </div>
+                <div class="hero-kpi-card">
+                    <span class="hkpi-label">Investimento Fev/26</span>
+                    <span class="hkpi-value" id="hkpi-inv">—</span>
+                    <span class="hkpi-trend trend-down" id="hkpi-inv-trend"></span>
+                </div>
+                <div class="hero-kpi-card">
+                    <span class="hkpi-label">Sessões Fev/26</span>
+                    <span class="hkpi-value" id="hkpi-sess">—</span>
+                    <span class="hkpi-trend trend-down" id="hkpi-sess-trend"></span>
+                </div>
+                <div class="hero-kpi-card">
+                    <span class="hkpi-label">Pedidos Fev/26</span>
+                    <span class="hkpi-value" id="hkpi-ped">—</span>
+                    <span class="hkpi-trend trend-down" id="hkpi-ped-trend"></span>
+                </div>
             </div>
-            <nav>
-                <a href="#" class="active" data-tab="fev">Fevereiro 2026</a>
-                <a href="#" data-tab="hist">Histórico 6 Meses</a>
-            </nav>
-        </aside>
+        </div>
+        <div class="scroll-hint">↓ scroll</div>
+    </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <header>
+    <!-- ─── MAIN CONTENT ─── -->
+    <main class="content">
+
+        <!-- TAB SWITCHER -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="hist">📅 Histórico 6 Meses</button>
+            <button class="tab-btn" data-tab="fev">📆 Fevereiro 2026 (diário)</button>
+        </nav>
+
+        <!-- ── SECTION: INVESTIMENTO ── -->
+        <section class="card-section">
+            <div class="section-head">
+                <span class="section-icon">💰</span>
                 <div>
-                    <h1 id="view-title">Desempenho: Fevereiro 2026</h1>
-                    <p class="subtitle">Visão executiva de tráfego, receita e investimentos.</p>
+                    <h2 class="section-title">Investimento em Mídia</h2>
+                    <p class="section-sub">Evolução do budget pago — Total, Eletro e Alimentos</p>
                 </div>
-                <div class="date-display" id="report-date">
-                    --/--/----
+            </div>
+            <div class="chart-card wide">
+                <div class="chart-box" style="height:320px">
+                    <canvas id="chartInvest"></canvas>
                 </div>
-            </header>
+            </div>
+        </section>
 
-            <!-- KPI Cards -->
-            <section class="kpi-grid">
-                <div class="kpi-card glass">
-                    <div class="kpi-icon total-rev">
-                        <svg width="24" height="24" fill="none" class="w-6 h-6" stroke="currentColor"
-                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                            </path>
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="kpi-label">Receita Captada Geral</p>
-                        <h3 class="kpi-value" id="kpi-receita">R$ 0,00</h3>
-                    </div>
+        <!-- ── SECTION: RECEITA ── -->
+        <section class="card-section">
+            <div class="section-head">
+                <span class="section-icon">📈</span>
+                <div>
+                    <h2 class="section-title">Receita Captada</h2>
+                    <p class="section-sub">Receita Total, Eletro e Alimentos ao longo do período</p>
                 </div>
+            </div>
+            <div class="chart-card wide">
+                <div class="chart-box" style="height:320px">
+                    <canvas id="chartReceita"></canvas>
+                </div>
+            </div>
+        </section>
 
-                <div class="kpi-card glass">
-                    <div class="kpi-icon total-ord">
-                        <svg width="24" height="24" fill="none" class="w-6 h-6" stroke="currentColor"
-                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="kpi-label">Pedidos Captados</p>
-                        <h3 class="kpi-value" id="kpi-pedidos">0</h3>
-                    </div>
+        <!-- ── SECTION: SESSÕES ── -->
+        <section class="card-section">
+            <div class="section-head">
+                <span class="section-icon">👥</span>
+                <div>
+                    <h2 class="section-title">Sessões & Tráfego</h2>
+                    <p class="section-sub">Sessões totais e sessões geradas por mídia paga</p>
                 </div>
+            </div>
+            <div class="chart-card wide">
+                <div class="chart-box" style="height:300px">
+                    <canvas id="chartSessoes"></canvas>
+                </div>
+            </div>
+        </section>
 
-                <div class="kpi-card glass">
-                    <div class="kpi-icon total-inv">
-                        <svg width="24" height="24" fill="none" class="w-6 h-6" stroke="currentColor"
-                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="kpi-label">Investimento Total</p>
-                        <h3 class="kpi-value" id="kpi-inv">R$ 0,00</h3>
-                    </div>
+        <!-- ── SECTION: PEDIDOS ── -->
+        <section class="card-section">
+            <div class="section-head">
+                <span class="section-icon">📦</span>
+                <div>
+                    <h2 class="section-title">Pedidos Captados</h2>
+                    <p class="section-sub">Volume de pedidos — Total, Eletro e Alimentos</p>
                 </div>
+            </div>
+            <div class="chart-card wide">
+                <div class="chart-box" style="height:300px">
+                    <canvas id="chartPedidos"></canvas>
+                </div>
+            </div>
+        </section>
 
-                <div class="kpi-card glass">
-                    <div class="kpi-icon roi">
-                        <svg width="24" height="24" fill="none" class="w-6 h-6" stroke="currentColor"
-                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
-                            </path>
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="kpi-label">Sessões Totais</p>
-                        <h3 class="kpi-value" id="kpi-sessoes">--</h3>
+        <!-- ── SECTION: CORRELAÇÃO ── -->
+        <section class="card-section">
+            <div class="section-head">
+                <span class="section-icon">🔗</span>
+                <div>
+                    <h2 class="section-title">Correlação: Investimento × Receita</h2>
+                    <p class="section-sub">Visualizando a relação direta entre budget e resultado</p>
+                </div>
+            </div>
+            <div class="two-col">
+                <div class="chart-card">
+                    <p class="chart-label">Investimento vs Receita Total (Histórico)</p>
+                    <div class="chart-box" style="height:280px">
+                        <canvas id="chartCorr"></canvas>
                     </div>
                 </div>
-            </section>
+                <div class="chart-card">
+                    <p class="chart-label">Mix de Receita (Eletro × Alimentos)</p>
+                    <div class="chart-box" style="height:280px">
+                        <canvas id="chartMix"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            <!-- Charts Section -->
-            <section class="charts-grid">
-                <div class="chart-container glass main-chart">
-                    <div class="chart-header">
-                        <h3>Evolução de Receita Diária</h3>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas id="revenueChart"></canvas>
-                    </div>
+        <!-- ── SECTION: TABELA ── -->
+        <section class="card-section">
+            <div class="section-head">
+                <span class="section-icon">📋</span>
+                <div>
+                    <h2 class="section-title">Dados Detalhados</h2>
+                    <p class="section-sub">Tabela completa por período selecionado</p>
                 </div>
-
-                <div class="chart-container glass split-chart">
-                    <div class="chart-header">
-                        <h3>Divisão de Receita</h3>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas id="splitChart"></canvas>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Table Section -->
-            <section class="data-table-container glass">
-                <div class="table-header">
-                    <h3>Detalhamento Diário</h3>
-                </div>
-                <div class="table-responsive">
+            </div>
+            <div class="table-card">
+                <div class="table-wrap">
                     <table id="dataTable">
                         <thead>
                             <tr>
-                                <th>Data</th>
-                                <th>Receita Geral</th>
-                                <th>Receita Eletro</th>
-                                <th>Receita Alim.</th>
+                                <th>Período</th>
+                                <th>Receita Total</th>
+                                <th>Rec. Eletro</th>
+                                <th>Rec. Alimentos</th>
                                 <th>Pedidos</th>
-                                <th>Investimento</th>
+                                <th class="inv-col">Investimento</th>
+                                <th>Sessões</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <!-- Generated via JS -->
-                        </tbody>
+                        <tbody id="tableBody"></tbody>
                     </table>
                 </div>
-            </section>
-        </main>
-    </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ─── FOOTER ─── -->
+    <footer class="footer">
+        <span>GBarbosa Ecommerce · Analytics Report · 2026</span>
+    </footer>
+
     <script src="script.js"></script>
 </body>
-
 </html>
