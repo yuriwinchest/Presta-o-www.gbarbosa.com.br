@@ -3,7 +3,7 @@
     --orange:       #F77A16;
     --orange-light: #FBAE5A;
     --orange-dark:  #C2570A;
-    --cream:        #FDF5ED;
+    --cream:        #FDF8F2;
     --white:        #FFFFFF;
     --ink:          #1A1208;
     --ink-mid:      #4A3520;
@@ -12,8 +12,10 @@
     --rec-col:      #2DC653;
     --sess-col:     #1F6FEB;
     --ped-col:      #8957E5;
-    --card-shadow:  0 4px 32px rgba(180, 100, 0, 0.12);
-    --radius:       18px;
+    --card-shadow:  0 2px 24px rgba(140, 70, 0, 0.09), 0 1px 4px rgba(0,0,0,0.04);
+    --card-shadow-hover: 0 8px 40px rgba(180, 100, 0, 0.18), 0 2px 8px rgba(0,0,0,0.06);
+    --radius:       20px;
+    --transition:   0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,6 +25,9 @@ body {
     background: var(--cream);
     color: var(--ink);
     min-height: 100vh;
+    /* Subtle noise grain texture */
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
 }
 
 /* ─── HERO ─── */
@@ -77,13 +82,15 @@ body {
 }
 
 .hero-title {
-    font-family: 'Sora', sans-serif;
-    font-size: clamp(3.5rem, 8vw, 7rem);
-    font-weight: 800;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(4rem, 9vw, 8rem);
+    font-weight: 900;
+    font-style: italic;
     color: white;
-    line-height: 1;
-    margin-bottom: 0.8rem;
-    letter-spacing: -2px;
+    line-height: 0.92;
+    margin-bottom: 1rem;
+    letter-spacing: -3px;
+    text-shadow: 0 4px 40px rgba(0,0,0,0.4);
 }
 
 .accent { color: var(--orange); }
@@ -103,20 +110,21 @@ body {
 }
 
 .hero-kpi-card {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.18);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
     border-radius: var(--radius);
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    transition: background 0.2s;
+    transition: background var(--transition), transform var(--transition);
 }
 
 .hero-kpi-card:hover {
-    background: rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.16);
+    transform: translateY(-4px);
 }
 
 .hkpi-label {
@@ -214,22 +222,24 @@ body {
 }
 
 .section-icon {
-    font-size: 2rem;
-    width: 56px;
-    height: 56px;
+    font-size: 1.5rem;
+    width: 52px;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, var(--orange-light), var(--orange));
-    border-radius: 16px;
+    border-radius: 14px;
     flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(247,122,22,0.3);
 }
 
 .section-title {
-    font-family: 'Sora', sans-serif;
-    font-size: 1.4rem;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--ink);
+    letter-spacing: -0.5px;
 }
 
 .section-sub {
@@ -244,7 +254,13 @@ body {
     border-radius: var(--radius);
     padding: 1.75rem;
     box-shadow: var(--card-shadow);
-    border: 1px solid rgba(247,122,22,0.08);
+    border: 1px solid rgba(247,122,22,0.07);
+    transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.chart-card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-2px);
 }
 
 .chart-card.wide { width: 100%; }
@@ -330,6 +346,17 @@ tbody tr:last-child td { border-bottom: none; }
     font-size: 0.85rem;
     border-top: 1px solid rgba(0,0,0,0.06);
     background: white;
+}
+
+/* ─── SCROLL REVEAL ─── */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1);
+}
+.reveal.visible {
+    opacity: 1;
+    transform: none;
 }
 
 /* ─── PLATFORM CARDS ─── */
