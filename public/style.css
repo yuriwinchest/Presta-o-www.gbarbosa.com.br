@@ -211,7 +211,14 @@ body {
     color: var(--orange-dark);
 }
 
-/* ─── MAIN CONTENT ─── */
+/* ─── MAIN CONTENT WRAPPER ─── */
+.content-wrapper {
+    background:
+        radial-gradient(ellipse 80% 40% at 10% 20%, rgba(247,122,22,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 60% at 90% 80%, rgba(247,122,22,0.04) 0%, transparent 60%),
+        var(--cream);
+}
+
 .content {
     max-width: 1300px;
     margin: 0 auto;
@@ -510,10 +517,10 @@ tbody tr:last-child td { border-bottom: none; }
 }
 
 .plat-note {
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.55);
-    line-height: 1.65;
-    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+    border-top: 1px solid rgba(255,255,255,0.12);
     padding-top: 1.25rem;
 }
 
@@ -578,26 +585,31 @@ tbody tr:last-child td { border-bottom: none; }
 
 .rec-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: white;
-    margin-bottom: 0.85rem;
-    line-height: 1.35;
+    margin-bottom: 1rem;
+    line-height: 1.3;
     letter-spacing: -0.3px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
 
 .rec-body {
-    font-size: 0.84rem;
-    color: rgba(255,255,255,0.78);
-    line-height: 1.7;
-    margin-bottom: 1.25rem;
+    font-size: 0.93rem;
+    color: rgba(255,255,255,0.92);
+    line-height: 1.75;
+    margin-bottom: 1.4rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
 }
 
 .rec-body strong {
     color: white;
-    font-weight: 700;
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-color: rgba(255,255,255,0.3);
+    text-underline-offset: 3px;
 }
-.rec-body em { font-style: italic; color: rgba(255,255,255,0.9); }
+.rec-body em { font-style: italic; color: white; }
 
 .rec-action {
     background: rgba(255,255,255,0.15);
