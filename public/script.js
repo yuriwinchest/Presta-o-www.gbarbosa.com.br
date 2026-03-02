@@ -188,23 +188,39 @@ function renderDashboard() {
     const corrInv    = histR.map(r => Number(r['Investimento Total'] || 0));
     const corrRec    = histR.map(r => Number(r['Receita total'] || 0));
 
-    // ── CHART: Correlação Investimento x Receita (barras lado a lado, eixo duplo) ──
+    // ── CHART: Correlação Investimento x Receita (escala única — mostra que investimento é pequeno vs receita) ──
     destroyAndCreate('chartCorr', {
         type: 'bar',
         data: {
             labels: corrLabels,
             datasets: [
-                { label: 'Investimento', data: corrInv, backgroundColor: '#F77A16', yAxisID: 'y',  barPercentage: 0.5 },
-                { label: 'Receita',      data: corrRec, backgroundColor: '#2DC653', yAxisID: 'y2', barPercentage: 0.5 },
+                { label: 'Receita Total',  data: corrRec, backgroundColor: '#2DC653', barPercentage: 0.7, order: 1 },
+                { label: 'Investimento',   data: corrInv, backgroundColor: '#F77A16', barPercentage: 0.7, order: 2 },
             ],
         },
         options: {
             ...baseOpts(),
             interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { padding: 18, boxWidth: 12, usePointStyle: true } },
+                tooltip: {
+                    backgroundColor: '#1A1208',
+                    titleColor: '#FDF5ED',
+                    bodyColor: 'rgba(255,255,255,0.75)',
+                    borderColor: 'rgba(247,122,22,0.4)',
+                    borderWidth: 1,
+                    padding: 14,
+                    callbacks: {
+                        label: (ctx) => {
+                            const v = ctx.raw;
+                            return `  ${ctx.dataset.label}: ${v >= 1000000 ? 'R$' + (v/1000000).toFixed(2) + 'M' : 'R$' + (v/1000).toFixed(0) + 'k'}`;
+                        }
+                    }
+                },
+            },
             scales: {
                 x:  { grid: { display: false } },
-                y:  { position: 'left',  ticks: { callback: (v) => 'R$' + (v/1000).toFixed(0)+'k'   }, grid: { color: 'rgba(0,0,0,0.04)' }, title: { display: true, text: 'Investimento' } },
-                y2: { position: 'right', ticks: { callback: (v) => 'R$' + (v/1000000).toFixed(1)+'M' }, grid: { drawOnChartArea: false }, title: { display: true, text: 'Receita' } },
+                y:  { ticks: { callback: (v) => v >= 1000000 ? 'R$' + (v/1000000).toFixed(1)+'M' : 'R$' + (v/1000).toFixed(0)+'k' }, grid: { color: 'rgba(0,0,0,0.04)' } },
             },
         },
     });
