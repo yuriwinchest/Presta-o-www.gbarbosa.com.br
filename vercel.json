@@ -1,5 +1,5 @@
 {
-  "buildCommand": "uv pip install pandas openpyxl && uv run python build.py",
+  "buildCommand": "pip install pandas openpyxl && python build.py",
   "outputDirectory": "public",
   "framework": null
 }
