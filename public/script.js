@@ -146,40 +146,40 @@ function renderDashboard() {
         data: {
             labels,
             datasets: [
-                { ...makeDataset('Rec. Eletro', recEletro, PALETTE.blue, false), type: 'bar', backgroundColor: PALETTE.blue.line, barPercentage: 0.7 },
-                { ...makeDataset('Rec. Alimentos', recAlim, PALETTE.purple, false), type: 'bar', backgroundColor: PALETTE.purple.line, barPercentage: 0.7 },
-                { ...makeDataset('Receita Total', recTotal, PALETTE.green, false), type: 'line', fill: false, borderWidth: 3, pointRadius: 5 },
+                { label: 'Receita Total',     data: recTotal,  backgroundColor: '#2DC653', barPercentage: 0.6 },
+                { label: 'Rec. Eletro',       data: recEletro, backgroundColor: '#1F6FEB', barPercentage: 0.6 },
+                { label: 'Rec. Alimentos',    data: recAlim,   backgroundColor: '#8957E5', barPercentage: 0.6 },
             ],
         },
-        options: { ...baseOpts((v) => 'R$ ' + (v/1000000).toFixed(1) + 'M'), scales: { x: { grid: { display: false }, stacked: false }, y: { ticks: { callback: (v) => 'R$' + (v/1000000).toFixed(1)+'M'}, grid: { color: 'rgba(0,0,0,0.05)' } } } },
+        options: { ...baseOpts((v) => 'R$' + (v/1000000).toFixed(1)+'M'), scales: { x: { grid: { display: false } }, y: { ticks: { callback: (v) => 'R$' + (v/1000000).toFixed(1)+'M' }, grid: { color: 'rgba(0,0,0,0.05)' } } } },
     });
 
 
-    // ── CHART: Sessões ──
+    // ── CHART: Sessões (barras agrupadas) ──
     destroyAndCreate('chartSessoes', {
         type: 'bar',
         data: {
             labels,
             datasets: [
-                { ...makeDataset('Sessões Total', sessTotal, PALETTE.blue, false), type: 'line', fill: true, backgroundColor: PALETTE.blue.fill },
-                { ...makeDataset('Sessões Mídia', sessMid, PALETTE.orange, false), type: 'bar', backgroundColor: PALETTE.orange.line, barPercentage: 0.5 },
+                { label: 'Sessões Total', data: sessTotal, backgroundColor: '#1F6FEB', barPercentage: 0.6 },
+                { label: 'Sessões Mídia', data: sessMid,   backgroundColor: '#F77A16', barPercentage: 0.6 },
             ],
         },
-        options: baseOpts(N),
+        options: { ...baseOpts(N), scales: { x: { grid: { display: false } }, y: { ticks: { callback: N }, grid: { color: 'rgba(0,0,0,0.05)' } } } },
     });
 
-    // ── CHART: Pedidos ──
+    // ── CHART: Pedidos (barras agrupadas) ──
     destroyAndCreate('chartPedidos', {
-        type: 'line',
+        type: 'bar',
         data: {
             labels,
             datasets: [
-                makeDataset('Pedidos Total', pedTotal, PALETTE.purple),
-                makeDataset('Ped. Eletro', pedEletro, PALETTE.blue),
-                makeDataset('Ped. Alimentos', pedAlim, PALETTE.teal),
+                { label: 'Pedidos Total',   data: pedTotal,  backgroundColor: '#8957E5', barPercentage: 0.6 },
+                { label: 'Ped. Eletro',     data: pedEletro, backgroundColor: '#1F6FEB', barPercentage: 0.6 },
+                { label: 'Ped. Alimentos',  data: pedAlim,   backgroundColor: '#14B8A6', barPercentage: 0.6 },
             ],
         },
-        options: baseOpts(N),
+        options: { ...baseOpts(N), scales: { x: { grid: { display: false } }, y: { ticks: { callback: N }, grid: { color: 'rgba(0,0,0,0.05)' } } } },
     });
 
     // ── CHART: Correlação (uses historic regardless) ──
@@ -188,22 +188,23 @@ function renderDashboard() {
     const corrInv    = histR.map(r => Number(r['Investimento Total'] || 0));
     const corrRec    = histR.map(r => Number(r['Receita total'] || 0));
 
+    // ── CHART: Correlação Investimento x Receita (barras lado a lado, eixo duplo) ──
     destroyAndCreate('chartCorr', {
         type: 'bar',
         data: {
             labels: corrLabels,
             datasets: [
-                { ...makeDataset('Investimento', corrInv, PALETTE.orange, false), type: 'bar', backgroundColor: PALETTE.orange.line, yAxisID: 'y', barPercentage: 0.5 },
-                { ...makeDataset('Receita', corrRec, PALETTE.green, false), type: 'line', fill: true, backgroundColor: PALETTE.green.fill, yAxisID: 'y2' },
+                { label: 'Investimento', data: corrInv, backgroundColor: '#F77A16', yAxisID: 'y',  barPercentage: 0.5 },
+                { label: 'Receita',      data: corrRec, backgroundColor: '#2DC653', yAxisID: 'y2', barPercentage: 0.5 },
             ],
         },
         options: {
             ...baseOpts(),
-            plugins: { ...baseOpts().plugins, legend: { position: 'bottom', labels: { padding: 18, boxWidth: 12, usePointStyle: true } } },
+            interaction: { mode: 'index', intersect: false },
             scales: {
                 x:  { grid: { display: false } },
-                y:  { position: 'left',  ticks: { callback: (v) => 'R$ ' + (v/1000).toFixed(0) + 'k' }, grid: { color: 'rgba(0,0,0,0.04)' }, title: { display: true, text: 'Investimento' } },
-                y2: { position: 'right', ticks: { callback: (v) => 'R$ ' + (v/1000000).toFixed(1) + 'M' }, grid: { drawOnChartArea: false }, title: { display: true, text: 'Receita' } },
+                y:  { position: 'left',  ticks: { callback: (v) => 'R$' + (v/1000).toFixed(0)+'k'   }, grid: { color: 'rgba(0,0,0,0.04)' }, title: { display: true, text: 'Investimento' } },
+                y2: { position: 'right', ticks: { callback: (v) => 'R$' + (v/1000000).toFixed(1)+'M' }, grid: { drawOnChartArea: false }, title: { display: true, text: 'Receita' } },
             },
         },
     });
