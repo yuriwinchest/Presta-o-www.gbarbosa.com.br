@@ -52,8 +52,9 @@ body {
     background: linear-gradient(
         to bottom,
         rgba(28, 14, 3, 0.30) 0%,
-        rgba(28, 14, 3, 0.70) 70%,
-        rgba(20, 10, 2, 0.92) 100%
+        rgba(28, 14, 3, 0.45) 0%,
+        rgba(20, 10, 2, 0.72) 65%,
+        rgba(12, 5, 0, 0.88) 100%
     );
     z-index: 1;
 }
@@ -68,38 +69,44 @@ body {
 }
 
 .hero-badge {
-    display: inline-block;
-    background: var(--orange);
-    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(247,122,22,0.18);
+    border: 1px solid rgba(247,122,22,0.45);
+    color: var(--orange-light);
     font-family: 'Sora', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 2px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
-    padding: 0.45rem 1.2rem;
+    padding: 0.5rem 1.2rem;
     border-radius: 100px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
 .hero-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(4rem, 9vw, 8rem);
+    font-size: clamp(4.5rem, 10vw, 9.5rem);
     font-weight: 900;
     font-style: italic;
     color: white;
-    line-height: 0.92;
-    margin-bottom: 1rem;
-    letter-spacing: -3px;
-    text-shadow: 0 4px 40px rgba(0,0,0,0.4);
+    line-height: 0.88;
+    margin-bottom: 1.25rem;
+    letter-spacing: -4px;
+    text-shadow: 0 8px 60px rgba(247,122,22,0.25), 0 2px 20px rgba(0,0,0,0.5);
 }
 
-.accent { color: var(--orange); }
+.accent { color: var(--orange-light); }
 
 .hero-sub {
-    font-size: 1.1rem;
-    color: rgba(255,255,255,0.65);
-    margin-bottom: 3.5rem;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 4rem;
     font-weight: 400;
+    letter-spacing: 0.5px;
 }
 
 /* ─── HERO KPI CARDS ─── */
@@ -110,21 +117,23 @@ body {
 }
 
 .hero-kpi-card {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-top: 2px solid rgba(247,122,22,0.55);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
     border-radius: var(--radius);
-    padding: 1.5rem;
+    padding: 1.5rem 1.75rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    transition: background var(--transition), transform var(--transition);
+    gap: 0.6rem;
+    transition: background var(--transition), transform var(--transition), border-top-color var(--transition);
 }
 
 .hero-kpi-card:hover {
-    background: rgba(255,255,255,0.16);
-    transform: translateY(-4px);
+    background: rgba(255,255,255,0.12);
+    transform: translateY(-5px);
+    border-top-color: var(--orange-light);
 }
 
 .hkpi-label {
@@ -211,41 +220,50 @@ body {
 
 /* ─── SECTIONS ─── */
 .card-section {
-    margin-bottom: 4rem;
+    margin-bottom: 5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(247,122,22,0.1);
 }
 
 .section-head {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
 }
 
 .section-icon {
-    font-size: 1.5rem;
-    width: 52px;
-    height: 52px;
+    font-size: 1.4rem;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--orange-light), var(--orange));
+    background: linear-gradient(135deg, var(--orange-light), var(--orange-dark));
     border-radius: 14px;
     flex-shrink: 0;
-    box-shadow: 0 4px 16px rgba(247,122,22,0.3);
+    box-shadow: 0 6px 20px rgba(247,122,22,0.35);
+    transition: transform var(--transition);
+}
+
+.section-head:hover .section-icon {
+    transform: rotate(-4deg) scale(1.08);
 }
 
 .section-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: var(--ink);
-    letter-spacing: -0.5px;
+    letter-spacing: -0.8px;
+    line-height: 1.1;
 }
 
 .section-sub {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--ink-muted);
-    margin-top: 0.2rem;
+    margin-top: 0.3rem;
+    font-style: italic;
 }
 
 /* ─── CHART CARDS ─── */
@@ -255,12 +273,24 @@ body {
     padding: 1.75rem;
     box-shadow: var(--card-shadow);
     border: 1px solid rgba(247,122,22,0.07);
+    border-top: 3px solid var(--orange);
     transition: box-shadow var(--transition), transform var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(247,122,22,0.025) 0%, transparent 30%);
+    pointer-events: none;
 }
 
 .chart-card:hover {
     box-shadow: var(--card-shadow-hover);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 }
 
 .chart-card.wide { width: 100%; }
