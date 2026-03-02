@@ -192,6 +192,16 @@ header h1 {
 
 .chart-container {
     padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 400px; /* Constrains height to resolve infinite chart loops */
+}
+
+.chart-wrapper {
+    flex: 1;
+    position: relative;
+    min-height: 0;
+    width: 100%;
 }
 
 .chart-header h3 {
